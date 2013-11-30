@@ -10,7 +10,7 @@ class CBot():
         """ setup """
         self.confpath = "conf/"
         self.libpath = "lib/"
-        self.conf = ConfLoad(self.confpath+"c.ini")
+        self.conf = ConfLoad(self.confpath+"settings.ini")
         self.nick = self.conf.get_nick()
         self.debug = False
         self.network = self.conf.get_netw()
