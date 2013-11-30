@@ -4,29 +4,24 @@ import socket
 import urllib2
 import re
 from init import ConfLoad
+from net import NetLoad
 
 class CBot():
     def __init__(self):
-        """ setup """
         self.confpath = "conf/"
         self.libpath = "lib/"
         self.conf = ConfLoad(self.confpath+"settings.ini")
         self.nick = self.conf.get_nick()
-        self.debug = False
         self.network = self.conf.get_netw()
         self.port = int(self.conf.get_port())
         self.chan = '#'+self.conf.get_chan()
-        self.irc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.irc.connect((self.network,self.port))
-        self.irc.recv(4096)
-        self.irc.send('NICK ' + self.nick + '\r\n')
-        self.irc.send('USER CheeseBot CheeseBot CheeseBot :Cheese IRC\r\n')
-        self.irc.send('JOIN ' + self.chan + '\r\n')
+        nl = NetLoad(self.network, self.port, self.nick, self.chan)
+        self.irc = nl.conn()
 
     def farg(self, arg):
         c = arg[4]
         if c == 'omg':
-            self.irc.send('PRIVMSG ' + self.chan + ' :OMG NO WAY!\r\n')
+            self.irc.send('PRIVMSG ' + self.chan + ' :\x1b[5mOMG NO WAY!\r\n')
         if c == 'cheese':
             self.getc()
 
