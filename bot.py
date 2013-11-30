@@ -1,21 +1,27 @@
+import os, sys
+sys.path.append(os.path.abspath('lib/'))
 import socket
 import urllib2
 import re
+from init import ConfLoad
 
 class CBot():
     def __init__(self):
-        self.nick = 'cbot_dot_py'
+        """ setup """
+        self.confpath = "conf/"
+        self.libpath = "lib/"
+        self.conf = ConfLoad(self.confpath+"c.ini")
+        self.nick = self.conf.get_nick()
         self.debug = False
-        self.network = "irc.aberwiki.org"
-        self.port = 6667
-        self.chan = '#flash'
+        self.network = self.conf.get_netw()
+        self.port = int(self.conf.get_port())
+        self.chan = '#'+self.conf.get_chan()
         self.irc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.irc.connect((self.network,self.port))
         self.irc.recv(4096)
         self.irc.send('NICK ' + self.nick + '\r\n')
         self.irc.send('USER CheeseBot CheeseBot CheeseBot :Cheese IRC\r\n')
         self.irc.send('JOIN ' + self.chan + '\r\n')
-        self.irc.send('PRIVMSG ' + self.chan + ' :Lol.\r\n')
 
     def farg(self, arg):
         c = arg[4]
@@ -26,9 +32,10 @@ class CBot():
 
     def getc(self):
         response = urllib2.urlopen('http://cheese.com')
-        m = re.search( r'style="color:.*">(.*)</a></h4>', response.read(), re.M|re.I)
-        if m:
-            self.irc.send('PRIVMSG ' + self.chan + ' : The cheese of the day is: ' + m.group(1)+'\r\n')
+        if response:
+            m = re.search( r'style="color:.*">(.*)</a></h4>', response.read(), re.M|re.I)
+            if m:
+                self.irc.send('PRIVMSG ' + self.chan + ' : The cheese of the day is: ' + m.group(1)+'\r\n')
 
     def run(self):
         while True:
@@ -40,7 +47,7 @@ class CBot():
                 ni = data.split('!')[0].replace(':', ' ')
                 dest = ''.join(data.split(':')[:2]).split(' ')[-2]
                 func = message.split()[0]
-                if func == 'cbot_dot_py:':
+                if func == self.nick+':':
                     arg = data.split()
                     self.farg(arg)
 
