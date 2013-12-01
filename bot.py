@@ -1,8 +1,9 @@
 import os, sys
-sys.path.append(os.path.abspath('lib/'))
-sys.path.append(os.path.abspath('lib/modules'))
 import socket
 import importlib
+
+sys.path.append(os.path.abspath('lib/'))
+sys.path.append(os.path.abspath('lib/modules'))
 from init import ConfLoad
 from net import NetLoad
 from mods import ModLoad
@@ -14,8 +15,8 @@ class CBot():
         self.conf = ConfLoad(self.confpath+"settings.ini")
         self.nick = self.conf.get_nick()
         self.network = self.conf.get_netw()
-        self.port = int(self.conf.get_port())
-        self.chan = '#'+self.conf.get_chan()
+        self.port = self.conf.get_port()
+        self.chan = self.conf.get_chan()
         nl = NetLoad(self.network, self.port, self.nick, self.chan)
         self.irc = nl.conn()
         self.ml = ModLoad(self.libpath)

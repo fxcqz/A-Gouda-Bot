@@ -5,8 +5,11 @@ class ConfLoad:
         conf = ConfigParser.ConfigParser()
         conf.read(f)
         self.nick = conf.get("Core", "nick")
-        self.chan = conf.get("Core", "chan")
-        self.port = conf.get("Network", "port")
+        if conf.get("Core", "chan")[:1] == '#':
+            self.chan = conf.get("Core", "chan")
+        else:
+            self.chan = '#'+conf.get("Core", "chan")
+        self.port = int(conf.get("Network", "port"))
         self.network = conf.get("Network", "server")
 
     def get_nick(self):
