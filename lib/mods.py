@@ -15,7 +15,7 @@ class ModLoad:
     def mod_load_all(self):
         flist = os.listdir(self.lpath + "modules")
         for f in flist:
-            if f[-3:] != "pyc":
+            if f[-3:] == ".py":
                 # only need .py files
                 self.mod_load(f[:-3])
 
