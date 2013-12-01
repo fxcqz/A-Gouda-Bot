@@ -1,10 +1,13 @@
 import os, sys
 sys.path.append(os.path.abspath('lib/'))
+sys.path.append(os.path.abspath('lib/modules'))
 import socket
 import urllib2
 import re
+import importlib
 from init import ConfLoad
 from net import NetLoad
+from mods import ModLoad
 
 class CBot():
     def __init__(self):
@@ -17,15 +20,20 @@ class CBot():
         self.chan = '#'+self.conf.get_chan()
         nl = NetLoad(self.network, self.port, self.nick, self.chan)
         self.irc = nl.conn()
+        self.ml = ModLoad()
+        self.ml.mod_load("cheese")
 
     def farg(self, arg):
+        """ commands """
         c = arg[4]
         if c == 'omg':
             self.irc.send('PRIVMSG ' + self.chan + ' :\x1b[5mOMG NO WAY!\r\n')
-        if c == 'cheese':
-            self.getc()
+        if c == 'cotd':
+            output = self.ml.get_arg('cotd')
+            self.irc.send('PRIVMSG ' + self.chan + ' :' + output + '\r\n')
 
     def getc(self):
+        """ for cheese module """
         response = urllib2.urlopen('http://cheese.com')
         if response:
             m = re.search( r'style="color:.*">(.*)</a></h4>', response.read(), re.M|re.I)
