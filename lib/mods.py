@@ -1,17 +1,23 @@
 import importlib
+import os
 
 class ModLoad:
-    def __init__(self):
+    def __init__(self, libpath):
         self.arglist = {}
         self.importlist = {}
+        self.lpath = libpath
 
     def mod_load(self, modname):
         self.importlist[modname] = importlib.import_module(modname)
         for arg in self.importlist[modname].get_args():
             self.arglist[arg] = modname
 
-    #def mod_load_all(self):
-    #    
+    def mod_load_all(self):
+        flist = os.listdir(self.lpath + "modules")
+        for f in flist:
+            if f[-3:] != "pyc":
+                # only need .py files
+                self.mod_load(f[:-3])
 
     def mod_reload(self, modname):
         if self.importlist[modname] != None:

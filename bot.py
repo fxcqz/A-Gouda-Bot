@@ -20,8 +20,8 @@ class CBot():
         self.chan = '#'+self.conf.get_chan()
         nl = NetLoad(self.network, self.port, self.nick, self.chan)
         self.irc = nl.conn()
-        self.ml = ModLoad()
-        self.ml.mod_load("cheese")
+        self.ml = ModLoad(self.libpath)
+        self.ml.mod_load_all()
 
     def farg(self, arg):
         """ commands """
