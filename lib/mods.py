@@ -1,5 +1,7 @@
 import importlib
-import os
+import os, sys
+sys.path.append(os.path.abspath('core/'))
+import errs
 
 class ModLoad:
     def __init__(self, libpath):
@@ -35,5 +37,8 @@ class ModLoad:
         return self.arglist
 
     def get_arg(self, arg):
-        ret = getattr(self.importlist[self.arglist[arg]], arg)()
+        try:
+            ret = getattr(self.importlist[self.arglist[arg]], arg)()
+        except AttributeError:
+            ret = errs.func_err()
         return ret

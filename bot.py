@@ -3,6 +3,7 @@ import socket
 import importlib
 
 sys.path.append(os.path.abspath('lib/'))
+sys.path.append(os.path.abspath('lib/core/'))
 sys.path.append(os.path.abspath('lib/modules'))
 from init import ConfLoad
 from net import NetLoad
@@ -26,7 +27,7 @@ class CBot():
         """ commands """
         c = arg[4]
         if c == 'omg':
-            self.irc.send('PRIVMSG ' + self.chan + ' :\x1b[5mOMG NO WAY!\r\n')
+            self.irc.send('PRIVMSG ' + self.chan + ' :OMG NO WAY!\r\n')
         for arg in self.ml.get_args():
             if c == arg:
                 output = self.ml.get_arg(arg)
