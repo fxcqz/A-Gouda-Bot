@@ -10,7 +10,10 @@ class ModLoad:
     def mod_load(self, modname):
         self.importlist[modname] = importlib.import_module(modname)
         for arg in self.importlist[modname].get_args():
-            self.arglist[arg] = modname
+            if arg in self.arglist:
+                print "Command already exists!"
+            else:
+                self.arglist[arg] = modname
 
     def mod_load_all(self):
         flist = os.listdir(self.lpath + "modules")
