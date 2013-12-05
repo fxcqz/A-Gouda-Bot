@@ -26,14 +26,28 @@ class CBot():
     def farg(self, arg, nick):
         """ commands """
         c = arg[4]
+        cargs = []
+        for x in range(5, len(arg)):
+            cargs.append(arg[x])
         if c == 'omg':
             self.irc.send('PRIVMSG ' + self.chan + ' :OMG NO WAY!\r\n')
+        if c == 'unload':
+            dlist = []
+            for key, val in self.ml.arglist.iteritems():
+                if val == cargs[0]:
+                    dlist.append(key)
+            for x in dlist:
+                del self.ml.arglist[x]
+            self.irc.send('PRIVMSG ' + self.chan + ' :Unloaded module: ' + cargs[0] + '\r\n')
+        if c == 'reload':
+            self.ml.mod_reload(cargs[0])
+            self.irc.send('PRIVMSG ' + self.chan + ' :Reloaded module: ' + cargs[0] + '\r\n')
         if c == 'cmds':
             clist = "Current available commands: "
-            for a in self.ml.get_args():
-                if clist[-2:][0] == ':':
-                    clist = clist + a + ", "
-                else:
+            if len(self.ml.get_args()) == 0:
+                clist = "No available commands.  "
+            else:
+                for a in self.ml.get_args():
                     clist = clist + a + ", "
             self.irc.send('PRIVMSG ' + self.chan + ' :' + clist[:-2] + '\r\n')
         for arg in self.ml.get_args():
