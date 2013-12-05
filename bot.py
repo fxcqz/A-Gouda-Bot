@@ -23,7 +23,7 @@ class CBot():
         self.ml = ModLoad(self.libpath)
         self.ml.mod_load_all()
 
-    def farg(self, arg):
+    def farg(self, arg, nick):
         """ commands """
         c = arg[4]
         if c == 'omg':
@@ -45,7 +45,7 @@ class CBot():
                 func = message.split()[0]
                 if func == self.nick+':':
                     arg = data.split()
-                    self.farg(arg)
+                    self.farg(arg, ni[1:])
 
 if __name__ == '__main__':
     bot = CBot()
