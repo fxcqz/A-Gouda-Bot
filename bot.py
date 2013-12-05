@@ -10,6 +10,7 @@ from net import NetLoad
 from mods import ModLoad
 
 import loader
+import lists
 
 class CBot():
     def __init__(self):
@@ -20,7 +21,7 @@ class CBot():
         self.network = self.conf.get_netw()
         self.port = self.conf.get_port()
         self.chan = self.conf.get_chan()
-        self.admin = self.conf.get_admin()
+        self.admins = self.conf.get_admins()
         nl = NetLoad(self.network, self.port, self.nick, self.chan)
         self.irc = nl.conn()
         self.ml = ModLoad(self.libpath)
@@ -36,7 +37,7 @@ class CBot():
         for arg in loader.get_args():
             if c == arg:
                 self.irc.send('PRIVMSG ' + self.chan + ' :' + getattr(loader, arg)(cargs[0], self.ml) + '\r\n')
-        if c == 'gtfo' and nick == self.admin:
+        if c == 'gtfo' and lists.in_list(self.admins, nick):
             self.irc.send('QUIT :Bye then...\r\n')
             exit()
         if c == 'cmds':
