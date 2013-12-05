@@ -27,11 +27,8 @@ def cotd():
                 __last_cheese = dict()
             __last_cheese["name"] = cotd_name
             __last_cheese["description"] = cotd_description
-<<<<<<< HEAD
             return formatting.fmat_tags("The cheese of the day is [yellow][bold]" + cotd_name +  "[clear] More Info: [cyan][bold][underline]" + cheese_url + cotd_url  + "[clear] (Alternatively, use 'cotd_more').\r\n")
-=======
             return formatting.fmat_tags("The cheese of the day is [yellow][bold]" + cotd_name +  "[clear] More Info: [cyan][bold][underline]" + cheese_url + cotd_url  + " [clear](Alternatively, use 'cotd_more').\r\n")
->>>>>>> 10d0e6850d7dc5c67514f8674d044ec2fb389184
     return failed_errortext
 
 def cotd_more():
