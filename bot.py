@@ -28,6 +28,14 @@ class CBot():
         c = arg[4]
         if c == 'omg':
             self.irc.send('PRIVMSG ' + self.chan + ' :OMG NO WAY!\r\n')
+        if c == 'cmds':
+            clist = "Current available commands: "
+            for a in self.ml.get_args():
+                if clist[-2:][0] == ':':
+                    clist = clist + a + ", "
+                else:
+                    clist = clist + a + ", "
+            self.irc.send('PRIVMSG ' + self.chan + ' :' + clist[:-2] + '\r\n')
         for arg in self.ml.get_args():
             if c == arg:
                 output = self.ml.get_arg(arg)
