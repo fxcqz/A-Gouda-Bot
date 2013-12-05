@@ -1,6 +1,5 @@
 import importlib
-import os, sys
-sys.path.append(os.path.abspath('core/'))
+import os
 import errs
 
 class ModLoad:

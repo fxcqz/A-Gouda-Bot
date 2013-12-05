@@ -4,10 +4,12 @@ import importlib
 
 sys.path.append(os.path.abspath('lib/'))
 sys.path.append(os.path.abspath('lib/core/'))
-sys.path.append(os.path.abspath('lib/modules'))
+sys.path.append(os.path.abspath('lib/modules/'))
 from init import ConfLoad
 from net import NetLoad
 from mods import ModLoad
+
+import loader
 
 class CBot():
     def __init__(self):
@@ -30,22 +32,10 @@ class CBot():
         cargs = []
         for x in range(5, len(arg)):
             cargs.append(arg[x])
-        if c == 'omg':
-            self.irc.send('PRIVMSG ' + self.chan + ' :OMG NO WAY!\r\n')
-        if c == 'load':
-            self.ml.mod_load(cargs[0])
-            self.irc.send('PRIVMSG ' + self.chan + ' :\001ACTION loaded module ' + cargs[0] + '\001\r\n')
-        if c == 'unload':
-            dlist = []
-            for key, val in self.ml.arglist.iteritems():
-                if val == cargs[0]:
-                    dlist.append(key)
-            for x in dlist:
-                del self.ml.arglist[x]
-            self.irc.send('PRIVMSG ' + self.chan + ' :\001ACTION unloaded module ' + cargs[0] + '\001\r\n')
-        if c == 'reload':
-            self.ml.mod_reload(cargs[0])
-            self.irc.send('PRIVMSG ' + self.chan + ' :\001ACTION reloaded module ' + cargs[0] + '\001\r\n')
+        """ loading, unloading, reloading modules """
+        for arg in loader.get_args():
+            if c == arg:
+                self.irc.send('PRIVMSG ' + self.chan + ' :' + getattr(loader, arg)(cargs[0], self.ml) + '\r\n')
         if c == 'gtfo' and nick == self.admin:
             self.irc.send('QUIT :Bye then...\r\n')
             exit()
