@@ -5,6 +5,7 @@ class ConfLoad:
         conf = ConfigParser.ConfigParser()
         conf.read(f)
         self.nick = conf.get("Core", "nick")
+        self.admin = conf.get("Core", "admin")
         if conf.get("Core", "chan")[:1] == '#':
             self.chan = conf.get("Core", "chan")
         else:
@@ -23,3 +24,6 @@ class ConfLoad:
 
     def get_netw(self):
         return self.network
+
+    def get_admin(self):
+        return self.admin

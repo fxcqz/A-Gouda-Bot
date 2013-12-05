@@ -1,6 +1,7 @@
 import re
 import urllib2
 import os,sys
+import HTMLParser
 sys.path.append(os.path.abspath('../core/'))
 import formatting
 __last_cheese = dict()
@@ -22,12 +23,12 @@ def cotd():
             cotd_description_match = re.search( r'<meta name="description" content="(.*)"/>', cpr)
             if not cotd_description_match:
                 return failed_errortext + ": Error obtaining description"
-            cotd_description = cotd_description_match.group(1)
+            parser = HTMLParser.HTMLParser()
+            cotd_description = parser.unescape(cotd_description_match.group(1))
             if not '__last_cheese' in globals():
                 __last_cheese = dict()
             __last_cheese["name"] = cotd_name
             __last_cheese["description"] = cotd_description
-            return formatting.fmat_tags("The cheese of the day is [yellow][bold]" + cotd_name +  "[clear] More Info: [cyan][bold][underline]" + cheese_url + cotd_url  + "[clear] (Alternatively, use 'cotd_more').\r\n")
             return formatting.fmat_tags("The cheese of the day is [yellow][bold]" + cotd_name +  "[clear] More Info: [cyan][bold][underline]" + cheese_url + cotd_url  + " [clear](Alternatively, use 'cotd_more').\r\n")
     return failed_errortext
 

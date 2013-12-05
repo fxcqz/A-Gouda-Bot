@@ -18,6 +18,7 @@ class CBot():
         self.network = self.conf.get_netw()
         self.port = self.conf.get_port()
         self.chan = self.conf.get_chan()
+        self.admin = self.conf.get_admin()
         nl = NetLoad(self.network, self.port, self.nick, self.chan)
         self.irc = nl.conn()
         self.ml = ModLoad(self.libpath)
@@ -33,7 +34,7 @@ class CBot():
             self.irc.send('PRIVMSG ' + self.chan + ' :OMG NO WAY!\r\n')
         if c == 'load':
             self.ml.mod_load(cargs[0])
-            self.irc.send('PRIVMSG ' + self.chan + ' :Loaded module: ' + cargs[0] + '\r\n')
+            self.irc.send('PRIVMSG ' + self.chan + ' :\001ACTION loaded module ' + cargs[0] + '\001\r\n')
         if c == 'unload':
             dlist = []
             for key, val in self.ml.arglist.iteritems():
@@ -41,10 +42,13 @@ class CBot():
                     dlist.append(key)
             for x in dlist:
                 del self.ml.arglist[x]
-            self.irc.send('PRIVMSG ' + self.chan + ' :Unloaded module: ' + cargs[0] + '\r\n')
+            self.irc.send('PRIVMSG ' + self.chan + ' :\001ACTION unloaded module ' + cargs[0] + '\001\r\n')
         if c == 'reload':
             self.ml.mod_reload(cargs[0])
-            self.irc.send('PRIVMSG ' + self.chan + ' :Reloaded module: ' + cargs[0] + '\r\n')
+            self.irc.send('PRIVMSG ' + self.chan + ' :\001ACTION reloaded module ' + cargs[0] + '\001\r\n')
+        if c == 'gtfo' and nick == self.admin:
+            self.irc.send('QUIT :Bye then...\r\n')
+            exit()
         if c == 'cmds':
             clist = "Current available commands: "
             if len(self.ml.get_args()) == 0:
