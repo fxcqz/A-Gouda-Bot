@@ -1,5 +1,5 @@
 import importlib
-import os
+import os, sys
 import errs
 
 class ModLoad:
@@ -10,18 +10,29 @@ class ModLoad:
 
     def mod_load(self, modname):
         self.importlist[modname] = importlib.import_module(modname)
-        for arg in self.importlist[modname].get_args():
-            if arg in self.arglist:
-                print "Command already exists!"
-            else:
-                self.arglist[arg] = modname
+        try:
+            for arg in self.importlist[modname].get_args():
+                if arg in self.arglist:
+                    print "Command already exists!"
+                else:
+                    self.arglist[arg] = modname
+        except AttributeError:
+            print "No arg list found"
 
     def mod_load_all(self):
-        flist = os.listdir(self.lpath + "modules")
-        for f in flist:
-            if f[-3:] == ".py":
-                # only need .py files
-                self.mod_load(f[:-3])
+        dirs = os.listdir(self.lpath+"modules/")
+        for x in range(len(dirs)):
+            if dirs[x][-3:] != "pyc" and dirs[x][-3:] != ".py":
+                for root, directories, files in os.walk(self.lpath+"modules/"+dirs[x]):
+                    sys.path.append(os.path.abspath(self.lpath+'modules/'+dirs[x]))
+                    for filename in files:
+                        try:
+                            if filename[-3:] == ".py":
+                                ret = getattr(importlib.import_module(filename[:-3]), "get_args")()
+                                if type(ret) is list:
+                                    self.mod_load(filename[:-3])
+                        except AttributeError:
+                            pass
 
     def mod_reload(self, modname):
         if self.importlist[modname] != None:

@@ -1,6 +1,13 @@
+import importlib
 def load(mod, ml):
+    retstr = ""
     ml.mod_load(mod)
-    return "\001ACTION loaded module " + mod + "\001"
+    try:
+        getattr(importlib.import_module(mod), "get_args")
+        retstr = "\001ACTION loaded module " + mod + "\001"
+    except AttributeError:
+        retstr = "\001ACTION was unable to load " + mod + "\001"
+    return retstr
 
 def unload(mod, ml):
     dlist = []
