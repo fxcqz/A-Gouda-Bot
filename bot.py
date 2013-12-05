@@ -31,6 +31,9 @@ class CBot():
             cargs.append(arg[x])
         if c == 'omg':
             self.irc.send('PRIVMSG ' + self.chan + ' :OMG NO WAY!\r\n')
+        if c == 'load':
+            self.ml.mod_load(cargs[0])
+            self.irc.send('PRIVMSG ' + self.chan + ' :Loaded module: ' + cargs[0] + '\r\n')
         if c == 'unload':
             dlist = []
             for key, val in self.ml.arglist.iteritems():
