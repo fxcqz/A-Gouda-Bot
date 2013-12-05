@@ -1,6 +1,3 @@
-import ast
-import os.path
-
 formats = {
 'black': '\x1b[30m', 
 'red': '\x1b[31m',
