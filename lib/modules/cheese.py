@@ -3,6 +3,7 @@ import urllib2
 import os,sys
 sys.path.append(os.path.abspath('../core/'))
 import formatting
+cotd_check = False
 
 def cotd():
     cheese_url = "http://cheese.com"
@@ -21,9 +22,16 @@ def cotd():
             if not cotd_description_match:
                 return failed_errortext + ": Error obtaining description"
             cotd_description = cotd_description_match.group(1)
-            return "The cheese of the day is " + formatting.fmat(cotd_name, "yellow") + " More Info: " + formatting.fmat(cheese_url + cotd_url, "cyan")  + "\r\n"
+            cotd_check = True
+            return fmat_tags("The cheese of the day is [yellow][bold]" + cotd_name +  "[clear] More Info: [cyan][bold]" + cheese_url + cotd_url  + "\r\n")
     return failed_errortext
 
+def cotd_more():
+    if cotd_check == True:
+        return "Something"
+    else:
+        return "Nothing"
+
 def get_args():
-    arglist = ["cotd"]
+    arglist = ["cotd", "cotd_more"]
     return arglist
