@@ -29,7 +29,10 @@ class CBot():
 
     def farg(self, arg, nick):
         """ commands """
-        c = arg[4]
+        if len(arg) <= 4:
+            c = "null"
+        else:
+            c = arg[4]
         cargs = []
         for x in range(5, len(arg)):
             cargs.append(arg[x])
