@@ -1,6 +1,5 @@
 import importlib
 import os, sys
-import errs
 
 class ModLoad:
     def __init__(self, libpath):
@@ -50,5 +49,5 @@ class ModLoad:
         try:
             ret = getattr(self.importlist[self.arglist[arg]], arg)()
         except AttributeError:
-            ret = errs.func_err()
+            ret = "No function found"
         return ret

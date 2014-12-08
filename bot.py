@@ -1,21 +1,20 @@
 import os, sys
+
+sys.path.insert(0, 'modules/')
+
 import socket
 import importlib
 
-sys.path.append(os.path.abspath('lib/'))
-sys.path.append(os.path.abspath('lib/core/'))
-sys.path.append(os.path.abspath('lib/modules/'))
 from init import ConfLoad
 from net import NetLoad
 from mods import ModLoad
 
 import loader
-import lists
 
 class CBot():
     def __init__(self):
         self.confpath = "conf/"
-        self.libpath = "lib/"
+        self.libpath = "./"
         # load information from config file(s)
         self.configure()
         # actual irc connection
@@ -26,6 +25,13 @@ class CBot():
         self.ml = ModLoad(self.libpath)
         # load all modules by default
         self.ml.mod_load_all()
+
+    def in_list(self, ls, scmp):
+        """ helper function for the quit command, might change later """
+        for x in range(len(ls)):
+            if scmp == ls[x]:
+                return True
+        return False
 
     def configure(self):
         """ load configuration info from settings file """
@@ -69,7 +75,7 @@ class CBot():
             # should modules be loaded/reloaded/unloaded
             self.loading_handler(arg, command)
         """ quit command """
-        if command == 'gtfo' and lists.in_list(self.admins, nick):
+        if command == 'gtfo' and self.in_list(self.admins, nick):
             self.quit(command, nick)
         # TODO: command to list all modules
         """ command to list all available commands """

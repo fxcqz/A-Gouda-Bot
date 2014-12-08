@@ -2,7 +2,6 @@ import re
 import urllib2
 import os,sys
 import HTMLParser
-sys.path.append(os.path.abspath('../core/'))
 import formatting
 __last_cheese = dict()
 
