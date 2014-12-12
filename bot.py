@@ -89,7 +89,8 @@ class CBot():
 
     def passive_commands(self, arg, nick):
         """ this function will parse every line """
-        pass
+        if arg[3][1:] == 'fuck' and arg[4] == '69':
+            self.irc.send('PRIVMSG ' + self.chan + ' :ayy lmao\r\n')
 
     def pong(self, data):
         if data.find('PING') != -1:
