@@ -4,6 +4,7 @@ sys.path.insert(0, 'modules/')
 
 import socket
 import importlib
+import random
 
 from init import ConfLoad
 from net import NetLoad
@@ -89,8 +90,11 @@ class CBot():
 
     def passive_commands(self, arg, nick):
         """ this function will parse every line """
-        if arg[3][1:] == 'fuck' and arg[4] == '69':
-            self.irc.send('PRIVMSG ' + self.chan + ' :ayy lmao\r\n')
+        prep = ["do", "should", "will", "can", "does", "are", "is", "if", "shall"]
+        if arg[len(arg)-1][len(arg[len(arg)-1])-1] == '?' and arg[3][1:] in prep:
+            yn_table = ["yes", "no"]
+            yn_response = yn_table[random.randint(0, 1)]
+            self.irc.send('PRIVMSG ' + self.chan + ' :'+yn_response+'\r\n')
 
     def pong(self, data):
         if data.find('PING') != -1:
