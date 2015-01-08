@@ -87,7 +87,7 @@ class CBot():
         if command == 'cmds':
             self.list_commands(command)
         if command not in self.ml.get_args() and arg[len(arg)-1][len(arg[len(arg)-1])-1] == '?':
-            if any("," in c for c in arg[4:len(arg)-1]):
+            if any("or" in c for c in arg[4:len(arg)-1]):
                 # maybe asking to choose?
                 choice = core.choose(' '.join(arg[4:len(arg)]))
                 self.irc.send('PRIVMSG ' + self.chan + ' :'+choice[random.randint(0, len(choice)-1)]+'\r\n')
