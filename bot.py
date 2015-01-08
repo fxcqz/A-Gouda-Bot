@@ -10,6 +10,7 @@ from init import ConfLoad
 from net import NetLoad
 from mods import ModLoad
 
+import core
 import loader
 
 class CBot():
@@ -86,7 +87,12 @@ class CBot():
         if command == 'cmds':
             self.list_commands(command)
         if command not in self.ml.get_args() and arg[len(arg)-1][len(arg[len(arg)-1])-1] == '?':
-            self.irc.send('PRIVMSG ' + self.chan + ' :Generic response...\r\n')
+            if any("," in c for c in arg[4:len(arg)-1]):
+                # maybe asking to choose?
+                choice = core.choose(' '.join(arg[4:len(arg)]))
+                self.irc.send('PRIVMSG ' + self.chan + ' :'+choice[random.randint(0, len(choice)-1)]+'\r\n')
+            else:
+                self.irc.send('PRIVMSG ' + self.chan + ' :Generic response...\r\n')
         """ parsing args corresponding to a module """
         for arg in self.ml.get_args():
             if command == arg:
