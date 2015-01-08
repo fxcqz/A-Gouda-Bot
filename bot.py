@@ -101,11 +101,15 @@ class CBot():
 
     def passive_commands(self, arg, nick):
         """ this function will parse every line """
-        prep = ["do", "should", "will", "can", "does", "are", "is", "if", "shall", "could", "was"]
+        prep = ["do", "should", "will", "can", "does", "are", "is", "if", "shall", "could", "was", "am"]
         if arg[len(arg)-1][len(arg[len(arg)-1])-1] == '?' and arg[3][1:].lower() in prep:
             yn_table = ["yes", "no"]
             yn_response = yn_table[random.randint(0, 1)]
             self.irc.send('PRIVMSG ' + self.chan + ' :'+yn_response+'\r\n')
+        lmgtfy_prep = ["how", "why", "what"]
+        if arg[3][1:].lower() in lmgtfy_prep and arg[4] in prep and arg[len(arg)-1][len(arg[len(arg)-1])-1] == '?':
+            lmgtfy_url = '+'.join(arg[3:len(arg)])
+            self.irc.send('PRIVMSG ' + self.chan + ' :hurr durr... http://lmgtfy.com/?q='+lmgtfy_url[1:-1]+'\r\n')
 
     def pong(self, data):
         if data.find('PING') != -1:
