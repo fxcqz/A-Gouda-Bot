@@ -78,7 +78,7 @@ class CBot():
         """ quit command """
         if command == 'gtfo' and self.in_list(self.admins, nick):
             self.quit(command, nick)
-        # TODO: command to list all modules
+        """ list all loaded modules """
         if command == 'modules':
             loaded_modules = ', '.join(list(set(self.ml.get_args().values())))
             self.irc.send('PRIVMSG ' + self.chan + ' :Loaded modules: '+loaded_modules+'\r\n')
@@ -112,17 +112,17 @@ class CBot():
             self.pong(data)
             if data.find('PRIVMSG') != -1:
                 # get the nick of whoever sent the message
-                user_nick = data.split('!')[0].replace(':', ' ')
+                user_nick = data.split('!')[0].replace(':', '')
                 # get what they wrote
                 message = ':'.join(data.split(':')[2:])
                 # first word in a users message
                 addressed_to = message.split()[0]
                 arg = data.split()
                 if addressed_to == self.nick+':':
-                    self.explicit_commands(arg, user_nick[1:])
+                    self.explicit_commands(arg, user_nick)
                 else:
                     if len(arg) >= 4:
-                        self.passive_commands(arg, user_nick[1:])
+                        self.passive_commands(arg, user_nick)
 
 if __name__ == '__main__':
     bot = CBot()
