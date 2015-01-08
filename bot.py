@@ -79,9 +79,14 @@ class CBot():
         if command == 'gtfo' and self.in_list(self.admins, nick):
             self.quit(command, nick)
         # TODO: command to list all modules
+        if command == 'modules':
+            loaded_modules = ', '.join(list(set(self.ml.get_args().values())))
+            self.irc.send('PRIVMSG ' + self.chan + ' :Loaded modules: '+loaded_modules+'\r\n')
         """ command to list all available commands """
         if command == 'cmds':
             self.list_commands(command)
+        if command not in self.ml.get_args() and arg[len(arg)-1][len(arg[len(arg)-1])-1] == '?':
+            self.irc.send('PRIVMSG ' + self.chan + ' :Generic response...\r\n')
         """ parsing args corresponding to a module """
         for arg in self.ml.get_args():
             if command == arg:
@@ -90,8 +95,8 @@ class CBot():
 
     def passive_commands(self, arg, nick):
         """ this function will parse every line """
-        prep = ["do", "should", "will", "can", "does", "are", "is", "if", "shall"]
-        if arg[len(arg)-1][len(arg[len(arg)-1])-1] == '?' and arg[3][1:] in prep:
+        prep = ["do", "should", "will", "can", "does", "are", "is", "if", "shall", "could", "was"]
+        if arg[len(arg)-1][len(arg[len(arg)-1])-1] == '?' and arg[3][1:].lower() in prep:
             yn_table = ["yes", "no"]
             yn_response = yn_table[random.randint(0, 1)]
             self.irc.send('PRIVMSG ' + self.chan + ' :'+yn_response+'\r\n')
@@ -110,9 +115,10 @@ class CBot():
                 user_nick = data.split('!')[0].replace(':', ' ')
                 # get what they wrote
                 message = ':'.join(data.split(':')[2:])
-                func = message.split()[0]
+                # first word in a users message
+                addressed_to = message.split()[0]
                 arg = data.split()
-                if func == self.nick+':':
+                if addressed_to == self.nick+':':
                     self.explicit_commands(arg, user_nick[1:])
                 else:
                     if len(arg) >= 4:
