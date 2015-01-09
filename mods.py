@@ -19,11 +19,11 @@ class ModLoad:
             print "No arg list found"
 
     def mod_load_all(self):
-        dirs = os.listdir(self.lpath+"modules/")
+        dirs = os.listdir(self.lpath)
         for x in range(len(dirs)):
             if dirs[x][-3:] != "pyc" and dirs[x][-3:] != ".py":
-                for root, directories, files in os.walk(self.lpath+"modules/"+dirs[x]):
-                    sys.path.append(os.path.abspath(self.lpath+'modules/'+dirs[x]))
+                for root, directories, files in os.walk(self.lpath+dirs[x]):
+                    sys.path.append(os.path.abspath(self.lpath+dirs[x]))
                     for filename in files:
                         try:
                             if filename[-3:] == ".py":

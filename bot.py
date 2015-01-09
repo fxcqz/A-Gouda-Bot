@@ -15,8 +15,9 @@ import loader
 
 class CBot():
     def __init__(self):
+        self.knocking = 0
         self.confpath = "conf/"
-        self.libpath = "./"
+        self.libpath = "modules/"
         # load information from config file(s)
         self.configure()
         # actual irc connection
@@ -87,10 +88,12 @@ class CBot():
         if command == 'cmds':
             self.list_commands(command)
         if command not in self.ml.get_args() and arg[len(arg)-1][len(arg[len(arg)-1])-1] == '?':
+            # TODO: change this to call module which parses msgs directed
+            #       at gouda, but are not explicit commands themself
             if any("or" in c for c in arg[4:len(arg)-1]):
                 # maybe asking to choose?
                 choice = core.choose(' '.join(arg[4:len(arg)]))
-                self.irc.send('PRIVMSG ' + self.chan + ' :'+choice[random.randint(0, len(choice)-1)]+'\r\n')
+                self.irc.send('PRIVMSG ' + self.chan + ' :'+nick+': '+choice[random.randint(0, len(choice)-1)]+'\r\n')
             else:
                 self.irc.send('PRIVMSG ' + self.chan + ' :Generic response...\r\n')
         """ parsing args corresponding to a module """
@@ -101,6 +104,7 @@ class CBot():
 
     def passive_commands(self, arg, nick):
         """ this function will parse every line """
+        # TODO: passive commands module(s)
         prep = ["do", "should", "will", "can", "does", "are", "is", "if", "shall", "could", "was", "am"]
         if arg[len(arg)-1][len(arg[len(arg)-1])-1] == '?' and arg[3][1:].lower() in prep:
             yn_table = ["yes", "no"]
@@ -108,6 +112,7 @@ class CBot():
             self.irc.send('PRIVMSG ' + self.chan + ' :'+yn_response+'\r\n')
         lmgtfy_prep = ["how", "why", "what"]
         if arg[3][1:].lower() in lmgtfy_prep and arg[4] in prep and arg[len(arg)-1][len(arg[len(arg)-1])-1] == '?':
+            # add a "why is that?" (for example), referring to previous question
             lmgtfy_url = '+'.join(arg[3:len(arg)])
             self.irc.send('PRIVMSG ' + self.chan + ' :hurr durr... http://lmgtfy.com/?q='+lmgtfy_url[1:-1]+'\r\n')
 
@@ -115,11 +120,22 @@ class CBot():
         if data.find('PING') != -1:
             self.irc.send('PONG ' + data.split()[1] + '\r\n')
 
+    def knock(self):
+        if self.knocking == 0:
+            self.knocking = 1
+            self.irc.send('KNOCK ' + self.chan + '\r\n')
+
     def run(self):
         print "Starting Gouda Bot"
         while True:
             data = self.irc.recv(4096)
             self.pong(data)
+            if data[-6:-2] == "(+i)":
+                self.knock()
+            else:
+                self.knocking = 0
+            if 'INVITE' in data:
+                self.irc.send('JOIN ' + self.chan + '\r\n')
             if data.find('PRIVMSG') != -1:
                 # get the nick of whoever sent the message
                 user_nick = data.split('!')[0].replace(':', '')
