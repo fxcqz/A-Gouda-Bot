@@ -22,8 +22,8 @@ dependency: ConfigParser
 
 A typical `main` function could therefore be defined as such:
 
-```def main(irc, nick, data, handler):
-
+```python
+def main(irc, nick, data, handler):
     pass```
 
 currently, the `main` function may not be placed inside a class.
@@ -38,10 +38,8 @@ there should also be an import which will import the file that contains the `mai
 
 here is an example init file:
 
-```import main
-
+```python
+import main
 from pkgutil import extend_path
-
 __path__ = extend_path(__path__, __name__)
-
 mainfile = "my_main_file"```
