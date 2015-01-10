@@ -10,11 +10,11 @@ class Gouda:
         self.configure()
         self.irc = Irc(self.nick, self.channel)
         # load modules here
-        self.module_handler = ModuleHandler(self.module_path)
+        self.module_handler = ModuleHandler(self.module_path, self.irc)
         self.parser = Parser(self.irc, self.module_handler, self.module_path)
         # always load the following:
-        self.module_handler.load_module("loader", delay=False)
-        self.module_handler.load_module("core", delay=False)
+        self.module_handler.load_module("loader", delay=False, startup=True)
+        self.module_handler.load_module("core", delay=False, startup=True)
 
     def configure(self):
         config = ConfigLoader(self.config_path + "settings.ini")

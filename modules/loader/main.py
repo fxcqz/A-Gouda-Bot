@@ -13,13 +13,10 @@ def modload(irc, handler, tokens):
                 exists = True
         if exists == False:
             handler.load_module(tokens[2])
-            irc.message("Loaded module: " + tokens[2])
-        else:
-            irc.message(tokens[2] + " already exists, dummy")
 
 def modreload(irc, handler, tokens):
     if tokens[1] == "reload":
-        if handler.importlist[tokens[2]] != None:
+        if tokens[2] in handler.importlist:
             reload(handler.importlist[tokens[2]])
             irc.message("Reloaded module: " + tokens[2])
         else:
