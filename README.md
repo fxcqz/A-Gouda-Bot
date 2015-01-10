@@ -22,7 +22,7 @@ dependency: ConfigParser
 
 A typical `main` function could therefore be defined as such:
 
-```
+```python
 def main(irc, nick, data, handler):
     pass
 ```
@@ -39,7 +39,7 @@ there should also be an import which will import the file that contains the `mai
 
 here is an example init file:
 
-```
+```python
 import main
 from pkgutil import extend_path
 __path__ = extend_path(__path__, __name__)
