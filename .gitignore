@@ -1,3 +1,3 @@
-todo.txt
 *.pyc
-conf/settings.ini
+config/settings.ini
+tmpgit/

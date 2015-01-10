@@ -1,4 +1,3 @@
-Cheese bot for irc
+a better version of a cheese bot
 
-Python 2.x
-Dependencies: ConfigParser
+dependency: ConfigParser
