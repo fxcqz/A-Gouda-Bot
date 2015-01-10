@@ -1,7 +1,6 @@
 import os
 import sys
 import time
-from urllib import FancyURLopener
 import urllib2
 import simplejson
 from threading import Thread
