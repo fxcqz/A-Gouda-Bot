@@ -24,7 +24,8 @@ A typical `main` function could therefore be defined as such:
 
 ```
 def main(irc, nick, data, handler):
-    pass```
+    pass
+```
 
 currently, the `main` function may not be placed inside a class.
 
@@ -42,4 +43,5 @@ here is an example init file:
 import main
 from pkgutil import extend_path
 __path__ = extend_path(__path__, __name__)
-mainfile = "my_main_file"```
+mainfile = "my_main_file"
+```
