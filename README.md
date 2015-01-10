@@ -13,8 +13,11 @@ dependency: ConfigParser
   * main takes the following parameters
 
 > Irc - Handle to the bots irc connection
+> 
 > Nick - The nick of the user who sent the message
+> 
 > Data - The message sent to irc
+> 
 > Handler - Handle to the module processor. This allows use of data in other parts of the bot.
 
 A typical `main` function could therefore be defined as such:
@@ -24,7 +27,7 @@ A typical `main` function could therefore be defined as such:
 
 currently, the `main` function may not be placed inside a class.
 
-## __init__.py
+## init.py
 
 to be placed inside each modules directory. each init file should be very similar to the others.
 
