@@ -35,3 +35,4 @@ class ModuleHandler:
                 self.importlist[name] = main
             except:
                 self.status = "Failed to load " + name
+                print self.status

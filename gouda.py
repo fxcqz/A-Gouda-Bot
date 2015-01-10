@@ -27,6 +27,7 @@ class Gouda:
         self.irc.connect(self.network, self.port)
         while True:
             data = self.irc.receive()
+            self.irc.pong(data)
             self.irc.knock_check(data)
             line = self.irc.read(data)
             # send line to parser
