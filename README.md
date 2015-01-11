@@ -2,7 +2,10 @@
 
 a better version of a cheese bot
 
-dependency: ConfigParser, simplejson
+dependencies:
+* ConfigParser
+* simplejson (optional: images module)
+* bs4 (beautiful soup) (optional: cheese module)
 
 ## modules
 
