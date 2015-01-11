@@ -17,9 +17,9 @@ class Parser:
                 um_len = len(self.handler.delayed_unloads)
                 self.handler.unload_module(self.handler.delayed_unloads.pop(), delay=False)
                 if len(self.handler.delayed_unloads) != um_len:
-                    self.irc.message("thats an unload! yea boiiii")
+                    self.irc.message("Unloaded module")
                 else:
-                    self.irc.message("rarely seen error message, might be about unloading lol")
+                    self.irc.message("rarely seen error message, might be about unloading")
 
     def run(self, line):
         if isinstance(line[1], list):
