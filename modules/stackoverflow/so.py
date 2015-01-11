@@ -32,7 +32,7 @@ def choose_link(irc, url):
 
 def main(irc, nick, data, handler):
     length = len(data)
-    if length > 3:
+    if length > 2:
         if data[0] == "Gouda:" and data[1] == "so":
             term = '+'.join(data[2:])
             choose_link(irc, "http://stackoverflow.com/search?q=" + term)
