@@ -32,8 +32,10 @@ def run(term, irc):
 
 def arg_check(data):
     ret = False
-    if data[0] == "Gouda:" and data[1] == "image" and len(data) > 2:
-        ret = True
+    if data[0] == "Gouda:":
+        if len(data) > 2:
+            if data[1] == "image":
+                ret = True
     return ret
 
 def main(irc, nick, data, handler):

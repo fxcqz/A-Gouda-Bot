@@ -28,6 +28,9 @@ class Parser:
         for key, module in self.handler.importlist.iteritems():
             if line[1] != None:
                 data = [word.lstrip() for word in line[1]]
-                module.main(self.irc, line[0], data, self.handler)
+                try:
+                    module.main(self.irc, line[0], data, self.handler)
+                except SyntaxError:
+                    pass
         self.do_imports()
         self.do_unloads()

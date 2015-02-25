@@ -1,3 +1,7 @@
+from os import listdir
+from os.path import isdir, join
+
+
 def check(tokens):
     status = False
     if len(tokens) > 2:
@@ -12,7 +16,12 @@ def modload(irc, handler, tokens):
             if key == tokens[2]:
                 exists = True
         if exists == False:
-            handler.load_module(tokens[2])
+            if tokens[2] == "all":
+                for m in [f for f in listdir("modules/") if isdir(join("modules/", f))]:
+                    if m != "loader":
+                        handler.load_module(m, startup=True)
+            else:
+                handler.load_module(tokens[2])
 
 def modreload(irc, handler, tokens):
     if tokens[1] == "reload":

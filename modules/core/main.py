@@ -1,5 +1,6 @@
 import random
 import time
+import nltk
 from threading import Thread
 
 def ayy_lmao(irc):
@@ -15,6 +16,15 @@ def get_modules(handler):
         ret = ', '.join(modules)
     return ret
 
+def adj_rudeness(data, irc):
+    tags = nltk.pos_tag(data)
+    adjs = []
+    for t in tags:
+        if t[1] == "JJ":
+            adjs.append(t[0])
+    if len(adjs) > 0:
+        irc.message("I tell you what else is "+random.choice(adjs)+", cunt. Your mum.")
+
 def main(irc, nick, data, handler):
     if data[0][:-1] == "Gouda" and len(data) > 1:
         # message is addressed to the bot
@@ -29,6 +39,13 @@ def main(irc, nick, data, handler):
             irc.message("1 like = 1 prayer x")
 
     if any("ayy" in w for w in data) and any("lmao" in w for w in data):
-        if random.randint(0, 2) == 1:
+        if random.randint(0, 8) == 1:
             ayy = Thread(target=ayy_lmao, args=(irc,))
             ayy.start()
+
+    if data[0] == "lol":
+        if random.randint(0, 20) == 4:
+            irc.message("lol")
+
+    if len(data) > 1 and random.randint(0,50) == 11:
+        adj_rudeness(data, irc)
