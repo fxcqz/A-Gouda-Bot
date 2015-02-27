@@ -2,10 +2,10 @@ import random
 import nltk
 
 
-modals = ["can", "could", "may", "might", "shall", "should", "will", "would", "must", "ought"]
+modals = ["can", "could", "may", "might", "shall", "should", "will", "would", "must", "ought", "are", "am", "is", "does", "did"]
 
 def yn(irc):
-    yes = ["yes", "m8.... yes!!", "yea duh", "i will be boring and say yes", "yup", "aye", "do it you sack of shit!"]
+    yes = ["yes", "m8.... yes!!", "yea duh", "i will be boring and say yes", "yup", "aye"]
     no = ["no", "nononononono", "nahh", "fuck that", "nope", "NO!", "yes... just kidding, no.", "no way!!", "seriously? no, man..."]
     irc.message(random.choice([random.choice(yes), random.choice(no)]))
 
