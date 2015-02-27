@@ -1,4 +1,5 @@
 import operator
+import re
 import moodstrings
 import os
 
@@ -65,5 +66,10 @@ def main(irc, nick, data, handler):
         for key, value in moodstrings.moodstrings.iteritems():
             for v in value:
                 if msg == v:
+                    emotions[key] += 1
+                    save_mood()
+        for key, value in moodstrings.moodregexes.iteritems():
+            for v in value:
+                if re.search(v, msg):
                     emotions[key] += 1
                     save_mood()

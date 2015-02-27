@@ -50,3 +50,14 @@ def yesno(irc, nick, data, handler):
     if data[offset] in modals and data[-1][-1] == "?":
         yn(irc)
     or_(data[offset:], irc)
+    if data[offset] == "when" and len(data[offset:]) > 1:
+        if data[offset+1] in modals and data[-1][-1] == "?":
+            hrs = random.randint(0, 23)
+            mins = random.randint(0, 59)
+            shrs = str(hrs)
+            smins = str(mins)
+            if hrs < 10:
+                shrs = "0" + shrs
+            if mins < 10:
+                smins = "0" + smins
+            irc.message(shrs + ":" + smins)
