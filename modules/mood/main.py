@@ -1,12 +1,13 @@
 import operator
 import moodstrings
+import os
 
 
 emotions = {"happiness": 0, "sadness": 0, "surprise": 0,
             "fear": 0, "disgust": 0, "anger": 0}
 
 def save_mood():
-    with open("mood.dat", 'w') as f:
+    with open("modules/mood/mood.dat", 'w') as f:
         moodstring = ""
         for key, value in emotions.iteritems():
             moodstring += key + ":" + str(value) + ","
@@ -15,7 +16,7 @@ def save_mood():
 def load_mood():
     moodstring = ""
     try:
-        with open("mood.dat", 'r') as f:
+        with open("modules/mood/mood.dat", 'r') as f:
             moodstring = f.readlines()
     except IOError:
         print "mood went wrong"

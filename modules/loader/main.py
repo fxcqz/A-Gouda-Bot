@@ -19,7 +19,7 @@ def modload(irc, handler, tokens):
             if tokens[2] == "all":
                 for m in [f for f in listdir("modules/") if isdir(join("modules/", f))]:
                     if m != "loader":
-                        handler.load_module(m, startup=True)
+                        handler.load_module(m)
             else:
                 handler.load_module(tokens[2])
 
