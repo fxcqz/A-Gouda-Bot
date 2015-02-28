@@ -26,7 +26,10 @@ class Irc:
         self.irc.send('QUIT :' + text + '\r\n')
 
     def message(self, text):
-        self.irc.send('PRIVMSG ' + self.channel + ' :' + text + '\r\n')
+        try:
+            self.irc.send('PRIVMSG ' + self.channel + ' :' + text + '\r\n')
+        except UnicodeEncodeError:
+            pass
 
     def emote(self, text):
         self.irc.send('\001ACTION ' + text + '\001')

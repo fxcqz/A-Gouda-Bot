@@ -2,7 +2,7 @@ import random
 import nltk
 
 
-modals = ["can", "could", "may", "might", "shall", "should", "will", "would", "must", "ought", "are", "am", "is", "does", "did"]
+modals = ["can", "could", "may", "might", "shall", "should", "will", "would", "must", "ought", "are", "am", "is", "does", "did", "didnt", "didn't", "do"]
 
 def yn(irc):
     yes = ["yes", "m8.... yes!!", "yea duh", "i will be boring and say yes", "yup", "aye"]
@@ -40,6 +40,15 @@ def or_(data, irc):
             else:
                 pass
 
+def rand_adv():
+    adv = ""
+    with open("/usr/share/dict/british-english", 'r') as f:
+        words = f.readlines()
+        words = [w.strip('\n') for w in words]
+        while adv[-2:] != "ly" and nltk.pos_tag([adv])[0][1] not in ["RB"]:
+            adv = random.choice(words)
+    return adv
+
 def yesno(irc, nick, data, handler):
     offset = 0
     if data[0] == "Gouda:":
@@ -61,3 +70,14 @@ def yesno(irc, nick, data, handler):
             if mins < 10:
                 smins = "0" + smins
             irc.message(shrs + ":" + smins)
+    if data[offset] == "why" and len(data[offset:]) > 1:
+        if data[offset+1] in modals and data[-1][-1] == "?":
+            whys = ["because i said so", "why not?", "itll make you feel better about your worthless life", "i would"]
+            irc.message(random.choice(whys))
+    if data[offset] == "how" and len(data[offset:]) > 1:
+        if data[offset+1] in modals and data[-1][-1] == "?":
+            radv = rand_adv()
+            if radv != "":
+                irc.message(radv)
+            else:
+                irc.message("shit, i don't know, man")
