@@ -81,3 +81,5 @@ def yesno(irc, nick, data, handler):
                 irc.message(radv)
             else:
                 irc.message("shit, i don't know, man")
+    if "lisp" in data[offset:]:
+        irc.message(random.choice(["lisp, lisp, lisp.. always with the lisp!", "are you on about fucking lisp again...", "check out my lithp", "hi im a hipster that wishes it was still 1960"]))

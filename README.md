@@ -6,6 +6,7 @@ dependencies:
 * ConfigParser
 * simplejson (optional: images module)
 * bs4 (beautiful soup) (optional: cheese module)
+* nltk
 
 ## modules
 
