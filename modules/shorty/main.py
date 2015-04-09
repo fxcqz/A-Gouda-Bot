@@ -18,7 +18,7 @@ def main(irc, nick, data, handler):
                 try:
                     response = requests.post(shorten_url, data=json_postdata).json
                     return_urls.append(response['id'])
-                except (ValueError, ConnectionError)
+                except (ValueError, ConnectionError):
                     return_urls.append(random.choice(errors) + "...")
             irc.message(return_urls.join(', '))
         else
