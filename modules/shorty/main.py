@@ -12,7 +12,8 @@ creepy = [';)', 'no tears... only dreams now...']
 min_length = 80
 
 def main(irc, nick, data, handler):
-    urls = [url for url in url_re.findall(data) if len(url) > min_length]
+    #urls = [url for url in url_re.findall(data) if len(url) > min_length]
+    urls = filter(lambda x: len(x) > min_length, url_re.findall(' '.join(data)))
     if urls:
         if "shh..." not in data:
             return_urls = []
@@ -24,7 +25,7 @@ def main(irc, nick, data, handler):
                     })
                     body = json.loads(urllib2.urlopen(full_url).read())
                     return_urls.append(body['data']['url'])
-                except (ValueError, httplib.HTTPException) as ex:
+                except (ValueError, urllib2.HTTPError) as ex:
                     print(ex)
                     return_urls.append(random.choice(errors) + "...")
             irc.message(" | ".join(return_urls))
