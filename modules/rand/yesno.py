@@ -1,4 +1,5 @@
 import random
+import re
 import nltk
 
 
@@ -11,7 +12,11 @@ def yn(irc):
 
 def phrase(data):
     text = nltk.word_tokenize(' '.join(data))
-    ts = nltk.pos_tag(text)
+    ts = []
+    try:
+        ts = nltk.pos_tag(text)
+    except UnicodeDecodeError:
+        pass
     phrase = []
     for n in ts:
         if n[1] in ["JJ", "JJS", "JJR"]:
@@ -83,3 +88,20 @@ def yesno(irc, nick, data, handler):
                 irc.message("shit, i don't know, man")
     if "lisp" in data[offset:]:
         irc.message(random.choice(["lisp, lisp, lisp.. always with the lisp!", "are you on about fucking lisp again...", "check out my lithp", "hi im a hipster that wishes it was still 1960"]))
+    if data[-1] == "lo":
+        irc.message("l")
+    if data[-1] == "yh?":
+        irc.message(random.choice(["yea", "yup", "yes you fuckwit"]))
+    if data[offset] == "roulette":
+        rcol = random.choice([" red", " black"])
+        irc.message(str(random.choice(range((2 - (ord(rcol[2]) % 2)), 37, 2)))+random.choice(rcol))
+    if data[-1] == "bk":
+        irc.message("wb")
+    if data[-1] == "<3":
+        irc.message("<3")
+    if nick == "ldtz" and data[offset:] == ["i", "am", "your", "god"]:
+        irc.message("i am a fucking cunt")
+    for w in data[offset:]:
+        res = re.sub(ur'(:)([a-zA-Z093]|\)|\(|\|)', u'\g<1>-\g<2>', w)
+        if res != w:
+            irc.message(res)

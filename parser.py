@@ -24,7 +24,8 @@ class Parser:
     def run(self, line):
         if isinstance(line[1], list):
             line[1][-1] = line[1][-1].replace("\r\n", "")
-            line[1][0] = line[1][0].lstrip(':')
+            #line[1][0] = line[1][0].lstrip(':')
+            line[1][0] = line[1][0][1:]
         for key, module in self.handler.importlist.iteritems():
             if line[1] != None:
                 data = [word.lstrip() for word in line[1]]

@@ -23,7 +23,9 @@ def adj_rudeness(data, irc):
         if t[1] == "JJ":
             adjs.append(t[0])
     if len(adjs) > 0:
-        irc.message("I tell you what else is "+random.choice(adjs)+", cunt. Your mum.")
+        a = ["cunt", "bitch", "friend", "ally", "comrade", "nob", "dick", "twat", "m8"]
+        b = ["mum", "dad", "nan", "sister"]
+        irc.message("I tell you what else is "+random.choice(adjs)+", "+random.choice(a)+". Your "+ random.choice(b) +".")
 
 def main(irc, nick, data, handler):
     if data[0][:-1] == "Gouda" and len(data) > 1:

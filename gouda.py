@@ -15,6 +15,12 @@ class Gouda:
         # always load the following:
         self.module_handler.load_module("loader", delay=False, startup=True)
         self.module_handler.load_module("core", delay=False, startup=True)
+        self.module_handler.load_module("rand", delay=False, startup=True)
+        self.module_handler.load_module("cheese", delay=False, startup=True)
+        self.module_handler.load_module("images", delay=False, startup=True)
+        self.module_handler.load_module("stackoverflow", delay=False, startup=True)
+        self.module_handler.load_module("mood", delay=False, startup=True)
+        self.module_handler.load_module("wiki", delay=False, startup=True)
 
     def configure(self):
         config = ConfigLoader(self.config_path + "settings.ini")
