@@ -11,7 +11,7 @@ creepy = [';)', 'no tears... only dreams now...']
 def main(irc, nick, data, handler):
     urls = url_re.findall(data)
     if urls:
-        if "shh..." not in data:
+        if not "shh..." in data:
             return_urls = []
             for url in urls:
                 json_postdata = {'longUrl': url}
