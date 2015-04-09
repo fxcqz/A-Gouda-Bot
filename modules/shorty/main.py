@@ -12,9 +12,7 @@ creepy = [';)', 'no tears... only dreams now...']
 min_length = 80
 
 def main(irc, nick, data, handler):
-    print("irc: " + irc + ", nick: " + nick + ", data: " + data)
     urls = [url for url in url_re.findall(data) if len(url) > min_length]
-    print(urls)
     if urls:
         if "shh..." not in data:
             return_urls = []
