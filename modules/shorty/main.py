@@ -7,7 +7,7 @@ import random
 url_re = re.compile('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+')
 shorten_domain = 'bitly.com'
 oauthkey = 'c302a13fae88967b205cef85de65666fd65a413d'
-errors = ['fuck', 'shit', 'wanker', 'bastard', 'oh bollocks', 'shitting hell', 'cunting internet']
+errors = ['fuck', 'shit', 'wanker', 'bastard', 'oh bollocks', 'shitting hell', 'cunting internet', 'blame golem']
 creepy = [';)', 'no tears... only dreams now...']
 min_length = 80
 
@@ -25,7 +25,7 @@ def main(irc, nick, data, handler):
                     })
                     body = json.loads(urllib2.urlopen(full_url).read())
                     return_urls.append(body['data']['url'])
-                except (ValueError, urllib2.HTTPError) as ex:
+                except (ValueError, TypeError, urllib2.HTTPError) as ex:
                     print(ex)
                     return_urls.append(random.choice(errors) + "...")
             irc.message(" | ".join(return_urls))
