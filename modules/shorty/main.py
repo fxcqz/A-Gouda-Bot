@@ -9,7 +9,7 @@ shorten_domain = 'bitly.com'
 oauthkey = 'c302a13fae88967b205cef85de65666fd65a413d'
 errors = ['fuck', 'shit', 'wanker', 'bastard', 'oh bollocks', 'shitting hell', 'cunting internet']
 creepy = [';)', 'no tears... only dreams now...']
-min_length = 20
+min_length = 80
 
 def main(irc, nick, data, handler):
     print("irc: " + irc + ", nick: " + nick + ", data: " + data)
