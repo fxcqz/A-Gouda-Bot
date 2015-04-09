@@ -9,10 +9,11 @@ shorten_domain = 'bitly.com'
 oauthkey = 'c302a13fae88967b205cef85de65666fd65a413d'
 errors = ['fuck', 'shit', 'wanker', 'bastard', 'oh bollocks', 'shitting hell', 'cunting internet']
 creepy = [';)', 'no tears... only dreams now...']
+min_length = 20
 
 def main(irc, nick, data, handler):
     print("irc: " + irc + ", nick: " + nick + ", data: " + data)
-    urls = url_re.findall(data)
+    urls = [url for url in url_re.findall(data) if len(url) > min_length]
     print(urls)
     if urls:
         if "shh..." not in data:
@@ -28,6 +29,6 @@ def main(irc, nick, data, handler):
                 except (ValueError, httplib.HTTPException) as ex:
                     print(ex)
                     return_urls.append(random.choice(errors) + "...")
-            irc.message(", ".join(return_urls))
+            irc.message(" | ".join(return_urls))
         else:
             irc.message(random.choice(creepy))
