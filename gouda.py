@@ -21,6 +21,7 @@ class Gouda:
         self.module_handler.load_module("stackoverflow", delay=False, startup=True)
         self.module_handler.load_module("mood", delay=False, startup=True)
         self.module_handler.load_module("wiki", delay=False, startup=True)
+        self.module_handler.load_module("shorty", delay=False, startup=True)
 
     def configure(self):
         config = ConfigLoader(self.config_path + "settings.ini")
