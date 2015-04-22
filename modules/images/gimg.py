@@ -8,7 +8,7 @@ import random
 
 """ http://stackoverflow.com/questions/11242967/python-search-with-image-google-images """
 
-def run(term, irc):
+def run(term, irc, nick, data, handler):
     if term != None:
         url_list = []
         term = term.replace(' ','%20')
@@ -28,7 +28,12 @@ def run(term, irc):
                 url_list.append(myUrl['unescapedUrl'])
             # Sleep for one second to prevent IP blocking from Google
             time.sleep(1)
-        irc.message(url_list[random.randint(0,len(url_list)-1)])
+        url_ = url_list[random.randint(0,len(url_list)-1)]
+        #if "shorty" in handler.importlist and len(url_) > 80:
+        #    handler.importlist['shorty'].main(irc, nick, list(url_), handler)
+        #else:
+        #    irc.message(url_)
+        irc.message(url_)
 
 def arg_check(data):
     ret = False
@@ -46,5 +51,5 @@ def main(irc, nick, data, handler):
         # think of some reason to write a message
         term = None
     if term != "":
-        retriever = Thread(target=run, args=(term,irc,))
+        retriever = Thread(target=run, args=(term,irc,nick,data,handler,))
         retriever.start()

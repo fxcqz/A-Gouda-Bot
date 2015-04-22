@@ -4,7 +4,8 @@ import urllib2
 import json
 import random
 
-url_re = re.compile('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+')
+#url_re = re.compile('http[s]?://(?:[a-zA-Z]|[0-9]|[#-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+')
+url_re = re.compile(ur'(?i)\b((?:[a-z][\w-]+:(?:/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'".,<>?«»“”‘’]))')
 shorten_domain = 'bitly.com'
 oauthkey = 'c302a13fae88967b205cef85de65666fd65a413d'
 errors = ['fuck', 'shit', 'wanker', 'bastard', 'oh bollocks', 'shitting hell', 'cunting internet', 'blame golem']
@@ -12,7 +13,6 @@ creepy = [';)', 'no tears... only dreams now...']
 min_length = 80
 
 def main(irc, nick, data, handler):
-    #urls = [url for url in url_re.findall(data) if len(url) > min_length]
     urls = filter(lambda x: len(x) > min_length, url_re.findall(' '.join(data)))
     if urls:
         if "shh..." not in data:

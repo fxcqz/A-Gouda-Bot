@@ -16,16 +16,6 @@ def get_modules(handler):
         ret = ', '.join(modules)
     return ret
 
-def adj_rudeness(data, irc):
-    tags = nltk.pos_tag(data)
-    adjs = []
-    for t in tags:
-        if t[1] == "JJ":
-            adjs.append(t[0])
-    if len(adjs) > 0:
-        a = ["cunt", "bitch", "friend", "ally", "comrade", "nob", "dick", "twat", "m8"]
-        b = ["mum", "dad", "nan", "sister"]
-        irc.message("I tell you what else is "+random.choice(adjs)+", "+random.choice(a)+". Your "+ random.choice(b) +".")
 
 def main(irc, nick, data, handler):
     if data[0][:-1] == "Gouda" and len(data) > 1:
@@ -48,6 +38,3 @@ def main(irc, nick, data, handler):
     if data[0] == "lol":
         if random.randint(0, 20) == 4:
             irc.message("lol")
-
-    if len(data) > 1 and random.randint(0,50) == 11:
-        adj_rudeness(data, irc)

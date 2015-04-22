@@ -28,7 +28,9 @@ def phrase(data):
 
 def or_(data, irc):
     if "or" in data:
-        if len(data) == 2:
+        if data[0] != "Gouda:" and data[0][-1] == ":":
+            pass
+        elif len(data) == 2:
             pass
         elif len(data) > data.index("or")+1 and data[-1][-1] == "?":
             p1 = phrase(data)
@@ -88,20 +90,21 @@ def yesno(irc, nick, data, handler):
                 irc.message("shit, i don't know, man")
     if "lisp" in data[offset:]:
         irc.message(random.choice(["lisp, lisp, lisp.. always with the lisp!", "are you on about fucking lisp again...", "check out my lithp", "hi im a hipster that wishes it was still 1960"]))
-    if data[-1] == "lo":
+    elif "diss" in data[offset:]:
+        if random.randint(0, 10) % 7 == 0:
+            irc.message("eat, sleep, report, repeat")
+    elif data[-1] == "lo":
         irc.message("l")
-    if data[-1] == "yh?":
+    elif data[-1] == "yh?":
         irc.message(random.choice(["yea", "yup", "yes you fuckwit"]))
-    if data[offset] == "roulette":
+    elif data[offset] == "roulette":
         rcol = random.choice([" red", " black"])
-        irc.message(str(random.choice(range((2 - (ord(rcol[2]) % 2)), 37, 2)))+random.choice(rcol))
-    if data[-1] == "bk":
+        irc.message(str(random.choice(range((2 - (ord(rcol[2]) % 2)), 37, 2)))+str(rcol))
+    elif data[-1] == "bk":
         irc.message("wb")
-    if data[-1] == "<3":
-        irc.message("<3")
-    if nick == "ldtz" and data[offset:] == ["i", "am", "your", "god"]:
+    elif nick == "ldtz" and data[offset:] == ["i", "am", "your", "god"]:
         irc.message("i am a fucking cunt")
-    for w in data[offset:]:
-        res = re.sub(ur'(:)([a-zA-Z093]|\)|\(|\|)', u'\g<1>-\g<2>', w)
-        if res != w:
-            irc.message(res)
+    elif nick == "ldtz" and data[offset:] == ["hey,", "bitch!"]:
+        irc.message("s-senpai...")
+    elif nick == "ldtz" and data[offset:] == ["take", "it"]:
+        irc.message("ungh!")
