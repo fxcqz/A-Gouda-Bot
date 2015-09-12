@@ -2,6 +2,8 @@ from config_loader import ConfigLoader
 from irc import Irc
 from parser import Parser
 from module_handler import ModuleHandler
+import time
+from threading import Thread
 
 class Gouda:
     def __init__(self):
@@ -31,9 +33,16 @@ class Gouda:
         self.network = config.get_network()
         self.port = config.get_port()
         self.channel = config.get_channel()
+    
+    def join(self):
+        time.sleep(3)
+        print "joining"
+        self.irc.join()
 
     def run(self):
         self.irc.connect(self.network, self.port)
+        join = Thread(target=self.join)
+        join.start()
         while True:
             data = self.irc.receive()
             self.irc.pong(data)

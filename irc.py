@@ -1,4 +1,5 @@
 import socket
+import time
 
 class Irc:
     def __init__(self, nick, channel):
@@ -13,7 +14,6 @@ class Irc:
         self.irc.recv(4096)
         self.irc.send('NICK ' + self.nick + '\r\n')
         self.irc.send('USER GoudaBot GoudaBot GoudaBot :Gouda IRC\r\n')
-        self.join()
 
     def join(self):
         self.irc.send('JOIN ' + self.channel + '\r\n')
@@ -46,6 +46,7 @@ class Irc:
 
     def read(self, data):
         user, message, info = None, None, None
+        print data
         if data.find('PRIVMSG') != -1:
             user = data.split('!')[0].replace(':', '')
             message = data.split()[3:]

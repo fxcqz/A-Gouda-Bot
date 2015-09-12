@@ -1,6 +1,7 @@
 import random
 import time
 import nltk
+import hashlib
 from threading import Thread
 
 def ayy_lmao(irc):
@@ -25,6 +26,9 @@ def main(irc, nick, data, handler):
 
         if data[1] == "modules":
             irc.message("Modules currently loaded are: " + get_modules(handler))
+
+        if data[1] == "dump" and data[2] == "core":
+            irc.message(hashlib.sha224(''.join(data) + str(random.random())).hexdigest())
 
     if any("like" in w for w in data):
         if random.randint(0, 9) == 5:

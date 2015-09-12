@@ -1,14 +1,16 @@
 import random
 import re
 import nltk
+import string
 
 
-modals = ["can", "could", "may", "might", "shall", "should", "will", "would", "must", "ought", "are", "am", "is", "does", "did", "didnt", "didn't", "do"]
+modals = ["can", "could", "may", "might", "shall", "should", "will", "would", "must", "ought", "are", "am", "is", "does", "did", "didnt", "didn't", "do", "don't"]
 
 def yn(irc):
     yes = ["yes", "m8.... yes!!", "yea duh", "i will be boring and say yes", "yup", "aye"]
     no = ["no", "nononononono", "nahh", "fuck that", "nope", "NO!", "yes... just kidding, no.", "no way!!", "seriously? no, man..."]
     irc.message(random.choice([random.choice(yes), random.choice(no)]))
+    #irc.message(random.choice(yes))
 
 def phrase(data):
     text = nltk.word_tokenize(' '.join(data))
@@ -61,7 +63,7 @@ def yesno(irc, nick, data, handler):
     if data[0] == "Gouda:":
         if len(data) > 1:
             offset = 1
-    if "yn" in data[offset]:
+    if data[offset] == 'yn':
         yn(irc)
     if data[offset] in modals and data[-1][-1] == "?":
         yn(irc)
@@ -90,21 +92,33 @@ def yesno(irc, nick, data, handler):
                 irc.message("shit, i don't know, man")
     if "lisp" in data[offset:]:
         irc.message(random.choice(["lisp, lisp, lisp.. always with the lisp!", "are you on about fucking lisp again...", "check out my lithp", "hi im a hipster that wishes it was still 1960"]))
-    elif "diss" in data[offset:]:
-        if random.randint(0, 10) % 7 == 0:
-            irc.message("eat, sleep, report, repeat")
     elif data[-1] == "lo":
         irc.message("l")
     elif data[-1] == "yh?":
         irc.message(random.choice(["yea", "yup", "yes you fuckwit"]))
+    elif data[-1] == "kik]":
+        irc.message("lel")
     elif data[offset] == "roulette":
         rcol = random.choice([" red", " black"])
         irc.message(str(random.choice(range((2 - (ord(rcol[2]) % 2)), 37, 2)))+str(rcol))
+    elif data[offset] == "acronym":
+        ac_ret = ""
+        ac_num = 3
+        if len(data) > 2:
+            try:
+                ac_num = int(data[2])
+            except ValueError:
+                pass
+        ac_src = string.letters[:26]
+        ac_src.replace('x', random.choice('aeiou'))
+        for x in range(ac_num):
+            ac_ret += random.choice(ac_src)
+        irc.message(ac_ret)
     elif data[-1] == "bk":
         irc.message("wb")
-    elif nick == "ldtz" and data[offset:] == ["i", "am", "your", "god"]:
-        irc.message("i am a fucking cunt")
-    elif nick == "ldtz" and data[offset:] == ["hey,", "bitch!"]:
-        irc.message("s-senpai...")
-    elif nick == "ldtz" and data[offset:] == ["take", "it"]:
-        irc.message("ungh!")
+    if "can't" in data[offset:]:
+        cb_s = ' '.join(data[offset:])
+        cb_c = cb_s.find("can't")
+        cb_b = cb_s.find("believe")
+        if cb_b != -1 and cb_b > cb_c:
+            irc.message("I can't believe it's not butter")
