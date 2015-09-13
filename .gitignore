@@ -1,4 +1,3 @@
 *.pyc
-config/settings.ini
-tmpgit/
-modules/mood/mood.dat
+gouda.db
+config/settings.json

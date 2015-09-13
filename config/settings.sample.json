@@ -1,0 +1,21 @@
+{
+    "core": {
+        "nick": "Gouda",
+        "channel": "#cheese",
+        "username": "GoudaBot",
+        "hostname": "GoudaBot",
+        "servername": "GoudaBot",
+        "realname": "Gouda IRC"
+    },
+
+    "db": {
+        "name": "gouda.db"
+    },
+
+    "modules": ["loader", "core", "crud", "ratings", "image"],
+
+    "network": {
+        "port": 6667,
+        "server": "irc.someserver.org"
+    }
+}
