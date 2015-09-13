@@ -32,14 +32,17 @@ class Parser(object):
                             if message[0] == command:
                                 # run the command, perhaps parse arg requirements
                                 # here first and then call with args
+                                e = False
                                 if 'explicit' in commands[command]:
                                     if commands[command]['explicit'] is True:
+                                        e = True
                                         # only call explicit functions if they are addressed to the bot
                                         if explicit:
                                             commands[command]['function'](message, self.api)
                                 else:
                                     commands[command]['function'](message, self.api)
-                                self.cache[command] = commands[command]['function']
+                                self.cache[command] = {"explicit": e,
+                                                       "function": commands[command]['function']}
 
                         # check for context
                         context = meta['context']
@@ -75,9 +78,12 @@ class Parser(object):
             message = message[1:]
         return message, explicit
 
-    def cache_call(self, message):
+    def cache_call(self, message, explicit):
         if message[0] in self.cache:
-            self.cache[message[0]](message, self.api)
+            if self.cache[message[0]]['explicit'] and explicit:
+                self.cache[message[0]]['function'](message, self.api)
+            elif not self.cache[message[0]]['explicit']:
+                self.cache[message[0]]['function'](message, self.api)
             return True
         return False
 
@@ -87,7 +93,7 @@ class Parser(object):
         """
         message, explicit = self.extract_message(message)
         if len(message) > 0:
-            if not self.cache_call(message):
+            if not self.cache_call(message, explicit):
                 self._parse(message, explicit)
         self.loader.do_imports()
         self.loader.do_unloads()
