@@ -1,3 +1,4 @@
 *.pyc
 gouda.db
 config/settings.json
+todo

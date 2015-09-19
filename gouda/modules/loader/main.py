@@ -1,3 +1,6 @@
+from gouda.utils import rreload
+
+
 def load(message, api):
     module = message[1]
     if module != "loader":
@@ -8,7 +11,7 @@ def load(message, api):
 def reload_(message, api):
     module = message[1]
     if module in api.loader.importlist:
-        reload(api.loader.importlist[module])
+        rreload(api.loader.importlist[module])
         api.message("Reloaded %s" % module)
     else:
         api.message("Failed to reload %s" % module)
